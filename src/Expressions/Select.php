@@ -12,7 +12,7 @@ class Select extends AbstractExpression
     private ?array $fields;
 
     /**
-     * @param array<string, string>|null $fields
+     * @param array<string, string>|array<int, string>|null $fields
      */
     public function __construct(?array $fields = null)
     {

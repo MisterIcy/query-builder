@@ -24,6 +24,10 @@ class QueryBuilder
         return $this;
     }
 
+    /**
+     * @param array<string, string>|null $fields
+     * @return self
+     */
     public function Select(?array $fields = null): self
     {
         return $this->addExpression(new Select($fields));

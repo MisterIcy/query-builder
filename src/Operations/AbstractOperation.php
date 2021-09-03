@@ -10,6 +10,10 @@ abstract class AbstractOperation extends AbstractExpression
     protected object $rightOperand;
     protected string $operator;
 
+    /**
+     * @param mixed $leftOperand
+     * @param mixed $rightOperand
+     */
     public function __construct($leftOperand, $rightOperand)
     {
         parent::__construct(0);

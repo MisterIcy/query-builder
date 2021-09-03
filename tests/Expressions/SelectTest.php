@@ -22,7 +22,7 @@ class SelectTest extends TestCase
         $select = new Select(['id']);
         $this->assertEquals('SELECT `id` `id` ', strval($select));
     }
-    public function testSelectWithStraightJoin()
+    public function testSelectWithStraightJoin(): void
     {
         $select = new Select(['id']);
         $select->setStraightJoin(true);

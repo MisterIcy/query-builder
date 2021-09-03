@@ -4,9 +4,13 @@ namespace MisterIcy\QueryBuilder\Operations;
 
 final class Eq extends AbstractOperation
 {
-    public function __construct($left, $right)
+    /**
+     * @param mixed $leftOperand
+     * @param mixed $rightOperand
+     */
+    public function __construct($leftOperand, $rightOperand)
     {
-        parent::__construct($left, $right);
+        parent::__construct($leftOperand, $rightOperand);
         $this->operator = '=';
     }
 

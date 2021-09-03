@@ -44,6 +44,10 @@ abstract class AbstractExpression implements Countable
 
     abstract public function __toString(): string;
 
+    /**
+     * @param array<mixed> $array
+     * @return bool
+     */
     final protected static function has_string_keys(array $array): bool
     {
         return count(array_filter(array_keys($array), 'is_string')) > 0;

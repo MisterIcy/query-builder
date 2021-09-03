@@ -4,6 +4,9 @@ namespace MisterIcy\QueryBuilder\Operations;
 
 final class IsNotNull extends AbstractOperation
 {
+    /**
+     * @param mixed $leftOperand
+     */
     public function __construct($leftOperand)
     {
         parent::__construct($leftOperand, null);
