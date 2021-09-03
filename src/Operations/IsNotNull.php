@@ -1,0 +1,16 @@
+<?php
+
+namespace MisterIcy\QueryBuilder\Operations;
+
+final class IsNotNull extends AbstractOperation
+{
+    public function __construct($leftOperand)
+    {
+        parent::__construct($leftOperand, null);
+        $this->operator = 'IS NOT NULL';
+    }
+    public function __toString(): string
+    {
+        return sprintf('%s %s', strval($this->leftOperand), $this->operator);
+    }
+}
