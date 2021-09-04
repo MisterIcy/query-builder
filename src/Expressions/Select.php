@@ -4,8 +4,12 @@ namespace MisterIcy\QueryBuilder\Expressions;
 
 class Select extends AbstractExpression
 {
-    use HintableTrait;
-
+    /**
+     * An array of hints for the SELECT clause.
+     *
+     * @var string[]
+     */
+    protected array $hints = [];
     /**
      * @var string[]|null
      */
@@ -19,31 +23,27 @@ class Select extends AbstractExpression
         $this->fields = $fields;
         $this->preSeparator = ' ';
         $this->postSeparator = ' ';
-        parent::__construct(100);
+        parent::__construct(self::PRIORITY_SELECT);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function __toString(): string
     {
-        $builder = 'SELECT';
+        $builder = 'SELECT ';
 
-        if ($this->isStraightJoin()) {
-            $builder .= ' STRAIGHT_JOIN';
-        }
-
-        if ($this->isSqlNoCache()) {
-            $builder .= ' SQL_NO_CACHE';
-        }
-        if ($this->isSqlCache()) {
-            $builder .= ' SQL_CACHE';
+        if (count($this->hints) > 0) {
+            $builder .= rtrim(implode(' ', $this->hints));
         }
 
         if (is_null($this->fields) || count($this->fields) == 0) {
-            $builder .= ' *';
+            $builder .= '*';
             return $builder;
         }
 
+        $builder .= $this->postSeparator;
         $assoc = self::has_string_keys($this->fields);
-        $builder .= $this->preSeparator;
 
         foreach ($this->fields as $key => $value) {
             $builder .= sprintf('`%s` `%s`', ($assoc) ? $key : $value, $value);
@@ -57,5 +57,23 @@ class Select extends AbstractExpression
         $builder .= $this->postSeparator;
 
         return $builder;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getHints(): array
+    {
+        return $this->hints;
+    }
+
+    /**
+     * @param string[] $hints
+     * @return self
+     */
+    public function setHints(array $hints = []): self
+    {
+        $this->hints = $hints;
+        return $this;
     }
 }
