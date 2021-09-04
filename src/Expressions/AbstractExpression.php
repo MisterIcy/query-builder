@@ -41,7 +41,10 @@ abstract class AbstractExpression implements Countable
         return $this->priority;
     }
 
-
+    /**
+     * Converts the expression into a string.
+     * @return string
+     */
     abstract public function __toString(): string;
 
     /**

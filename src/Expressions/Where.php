@@ -14,17 +14,20 @@ class Where extends AbstractExpression
         $this->expression = $expression;
         $this->isAnd = $isAnd;
         $this->isOr = $isOr;
+        if ($this->isAnd || $this->isOr) {
+            $this->priority = 45;
+        }
     }
 
     public function __toString(): string
     {
         $builder = '';
         if ($this->isAnd) {
-            $builder .= ' AND' . $this->preSeparator;
+            $builder .= 'AND' . $this->preSeparator;
         } elseif ($this->isOr) {
-            $builder .= ' OR' . $this->preSeparator;
+            $builder .= 'OR' . $this->preSeparator;
         } else {
-            $builder .= ' WHERE ';
+            $builder .= 'WHERE ';
         }
 
         $builder .= strval($this->expression);
@@ -32,8 +35,6 @@ class Where extends AbstractExpression
         if ($this->isOr || $this->isAnd) {
             $builder .= $this->postSeparator;
         }
-        $builder .= ' ';
         return $builder;
     }
-
 }
