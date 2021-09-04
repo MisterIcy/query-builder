@@ -1,4 +1,4 @@
-name: QueryBuilder Checks
+name: QueryBuilder Tesing
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   check:
-    name: QueryBuilder (PHP ${{matrix.php_versions}})
+    name: QueryBuilder Testing (PHP ${{matrix.php_versions}})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
