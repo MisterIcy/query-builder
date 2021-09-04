@@ -13,12 +13,6 @@ final class Eq extends AbstractOperation
      */
     public function __construct($leftOperand, $rightOperand)
     {
-        if (is_null($leftOperand) || is_null($rightOperand)) {
-            throw new NullArgumentException();
-        }
-        if (is_object($leftOperand) || is_object($rightOperand) || is_array($leftOperand) || is_array($rightOperand)) {
-            throw new InvalidArgumentException();
-        }
         parent::__construct($leftOperand, $rightOperand);
         $this->operator = '=';
     }
