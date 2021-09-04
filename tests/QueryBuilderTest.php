@@ -19,6 +19,7 @@ class QueryBuilderTest extends TestCase
         $query = $queryBuilder->getQuery();
         $this->assertEquals('SELECT * FROM `test` `t`;', $query);
     }
+
     public function testQueryWithUseIndex(): void
     {
         $queryBuilder = new QueryBuilder();
@@ -29,6 +30,7 @@ class QueryBuilderTest extends TestCase
         $query = $queryBuilder->getQuery();
         $this->assertEquals('SELECT * FROM `test` `t` USE INDEX (PRIMARY);', $query);
     }
+
     public function testQueryWithUseTwoIndexes(): void
     {
         $queryBuilder = new QueryBuilder();
@@ -39,6 +41,7 @@ class QueryBuilderTest extends TestCase
         $query = $queryBuilder->getQuery();
         $this->assertEquals('SELECT * FROM `test` `t` USE INDEX (PRIMARY,idx1);', $query);
     }
+
     public function testQueryWithForceIndex(): void
     {
         $queryBuilder = new QueryBuilder();
@@ -49,6 +52,7 @@ class QueryBuilderTest extends TestCase
         $query = $queryBuilder->getQuery();
         $this->assertEquals('SELECT * FROM `test` `t` FORCE INDEX (PRIMARY);', $query);
     }
+
     public function testQueryWithIgnoreIndex(): void
     {
         $queryBuilder = new QueryBuilder();
@@ -59,6 +63,7 @@ class QueryBuilderTest extends TestCase
         $query = $queryBuilder->getQuery();
         $this->assertEquals('SELECT * FROM `test` `t` IGNORE INDEX (PRIMARY);', $query);
     }
+
     public function testQueryWithIndexConflict(): void
     {
         $this->expectException(IndexDirectiveAlreadyExistsException::class);
@@ -68,6 +73,7 @@ class QueryBuilderTest extends TestCase
             ->forceIndex(['PRIMARY'])
             ->ignoreIndex(['PRIMARY']);
     }
+
     public function testQueryBuilderTransaction(): void
     {
         $qb = new QueryBuilder();
@@ -85,35 +91,39 @@ class QueryBuilderTest extends TestCase
 
         $this->assertEquals('START TRANSACTION; ROLLBACK;', $qb->getQuery());
     }
+
     public function testQueryBuilderWhere(): void
     {
         $qb = new QueryBuilder();
         $qb->select()
             ->from('test')
-            ->where(new Eq(1,1));
+            ->where(new Eq(1, 1));
 
         $this->assertEquals('SELECT * FROM `test` `t` WHERE 1 = 1;', $qb->getQuery());
     }
+
     public function testQueryBuilderAndWhere(): void
     {
         $qb = new QueryBuilder();
         $qb->select()
             ->from('test')
-            ->where(new Eq(1,1))
+            ->where(new Eq(1, 1))
             ->andWhere(new Neq(1, 2));
 
         $this->assertEquals('SELECT * FROM `test` `t` WHERE 1 = 1 AND 1 != 2;', $qb->getQuery());
     }
+
     public function testQueryBuilderOrWhere(): void
     {
         $qb = new QueryBuilder();
         $qb->select()
             ->from('test')
-            ->where(new Eq(1,1))
+            ->where(new Eq(1, 1))
             ->orWhere(new Neq(1, 2));
 
         $this->assertEquals('SELECT * FROM `test` `t` WHERE 1 = 1 OR 1 != 2;', $qb->getQuery());
     }
+
     public function testNestedSelectFrom(): void
     {
         $qb1 = new QueryBuilder();
@@ -134,6 +144,7 @@ class QueryBuilderTest extends TestCase
 
         $this->assertEquals('SELECT `id` `testId` FROM `test` `t`;', $qb->getQuery());
     }
+
     public function testGroupByField(): void
     {
         $qb = new QueryBuilder();
@@ -142,5 +153,19 @@ class QueryBuilderTest extends TestCase
             ->groupBy(['id']);
 
         $this->assertEquals('SELECT * FROM `test` `t` GROUP BY id;', $qb->getQuery());
+    }
+
+    public function testInnerJoin(): void
+    {
+        $qb = new QueryBuilder();
+        $qb->select()
+            ->from('test', 't1')
+            ->innerJoin('test2', new Eq('t1.id', 't2.id'), 't2')
+            ->innerJoin('test3', new Eq('t2.id', 't3.id'), 't3');
+
+        $this->assertEquals(
+            'SELECT * FROM `test` `t1` INNER JOIN `test2` `t2` ON t1.id = t2.id INNER JOIN `test3` `t3` ON t2.id = t3.id;',
+            $qb->getQuery()
+        );
     }
 }

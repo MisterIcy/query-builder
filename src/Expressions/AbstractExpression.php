@@ -19,6 +19,7 @@ abstract class AbstractExpression implements Countable
     protected const PRIORITY_SELECT = 100;
     protected const PRIORITY_FROM = 90;
     protected const PRIORITY_INDEX = 85;
+    protected const PRIORITY_JOIN = 80;
     protected const PRIORITY_GROUP_BY = 20;
 
     protected string $preSeparator = '(';

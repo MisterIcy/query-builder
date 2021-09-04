@@ -8,8 +8,11 @@ use MisterIcy\QueryBuilder\Expressions\AbstractExpression;
 use MisterIcy\QueryBuilder\Expressions\From;
 use MisterIcy\QueryBuilder\Expressions\FromQuery;
 use MisterIcy\QueryBuilder\Expressions\GroupBy;
+use MisterIcy\QueryBuilder\Expressions\InnerJoin;
+use MisterIcy\QueryBuilder\Expressions\JoinExpression;
 use MisterIcy\QueryBuilder\Expressions\Select;
 use MisterIcy\QueryBuilder\Expressions\Where;
+use MisterIcy\QueryBuilder\Operations\AbstractOperation;
 use MisterIcy\QueryBuilder\Transactions\CommitTransaction;
 use MisterIcy\QueryBuilder\Transactions\RollbackTransaction;
 use MisterIcy\QueryBuilder\Transactions\StartTransaction;
@@ -76,6 +79,11 @@ class QueryBuilder
         return $this->addExpression(new Where($expression, false, true));
     }
 
+    public function innerJoin(string $table, AbstractOperation $joinOn, string $alias = 't'): self
+    {
+        return $this->addExpression(new InnerJoin($table, $joinOn, $alias));
+    }
+
     /**
      * @param string[] $fields
      * @return self
@@ -85,12 +93,13 @@ class QueryBuilder
     {
         return $this->addExpression(new GroupBy($fields));
     }
+
     public function getQuery(bool $format = false): string
     {
         // Sort expressions by priority
         $sortedExpressions = $this->expressions;
         uasort($sortedExpressions, function (AbstractExpression $a, AbstractExpression $b) {
-            if ($a->getPriority() == $b->getPriority()) {
+            if ($a->getPriority() === $b->getPriority()) {
                 return 0;
             }
             return ($a->getPriority() < $b->getPriority()) ? -1 : 1;
