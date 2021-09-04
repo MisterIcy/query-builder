@@ -36,7 +36,7 @@ class Delete extends AbstractExpression
     public function __toString(): string
     {
         $builder = 'DELETE ';
-        $builder .= ($this->ignore) ? 'IGNORE ': '';
+        $builder .= ($this->ignore) ? 'IGNORE ' : '';
         $builder .= sprintf('FROM `%s` `%s`', $this->table, $this->alias);
         return $builder;
     }

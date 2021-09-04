@@ -66,4 +66,21 @@ class QueryBuilderTest extends TestCase
             ->forceIndex(['PRIMARY'])
             ->ignoreIndex(['PRIMARY']);
     }
+    public function testQueryBuilderTransaction(): void
+    {
+        $qb = new QueryBuilder();
+        $qb->startTransaction()
+            ->commit();
+
+        $this->assertEquals('START TRANSACTION; COMMIT;', $qb->getQuery());
+    }
+
+    public function testQueryBuilderRollback(): void
+    {
+        $qb = new QueryBuilder();
+        $qb->startTransaction()
+            ->rollback();
+
+        $this->assertEquals('START TRANSACTION; ROLLBACK;', $qb->getQuery());
+    }
 }

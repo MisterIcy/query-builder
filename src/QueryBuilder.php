@@ -23,17 +23,17 @@ class QueryBuilder
         $this->expressions = [];
     }
 
-    public function startTransaction(?string $transactionId): self
+    public function startTransaction(?string $transactionId = null): self
     {
         return $this->addExpression(new StartTransaction($transactionId));
     }
 
-    public function commit(?string $transactionId): self
+    public function commit(?string $transactionId = null): self
     {
         return $this->addExpression(new CommitTransaction($transactionId));
     }
 
-    public function rollback(?string $transactionId): self
+    public function rollback(?string $transactionId = null): self
     {
         return $this->addExpression(new RollbackTransaction($transactionId));
     }
@@ -71,7 +71,7 @@ class QueryBuilder
     {
         // Sort expressions by priority
         $sortedExpressions = $this->expressions;
-        uasort($sortedExpressions, function (AbstractExpression $a, AbstractExpression $b) {
+        uasort($sortedExpressions, function(AbstractExpression $a, AbstractExpression $b) {
             if ($a->getPriority() == $b->getPriority()) {
                 return 0;
             }
@@ -87,7 +87,9 @@ class QueryBuilder
         }
 
         $builder = rtrim($builder);
-        $builder .= ';';
+        if (!str_ends_with($builder, ';')) {
+            $builder .= ';';
+        }
         return $builder;
     }
 }
