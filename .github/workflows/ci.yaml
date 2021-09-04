@@ -46,9 +46,6 @@ jobs:
       - name: Run Tests
         run: composer run tests
 
-      - name: Run Static Analysis
-        run: composer run analyze
-
       - name: Upload to Codecov.io
         uses: codecov/codecov-action@v2
         with:
