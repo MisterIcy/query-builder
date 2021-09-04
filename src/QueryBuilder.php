@@ -7,6 +7,7 @@ use MisterIcy\QueryBuilder\BuilderTraits\IndexTrait;
 use MisterIcy\QueryBuilder\Expressions\AbstractExpression;
 use MisterIcy\QueryBuilder\Expressions\From;
 use MisterIcy\QueryBuilder\Expressions\FromQuery;
+use MisterIcy\QueryBuilder\Expressions\GroupBy;
 use MisterIcy\QueryBuilder\Expressions\Select;
 use MisterIcy\QueryBuilder\Expressions\Where;
 use MisterIcy\QueryBuilder\Transactions\CommitTransaction;
@@ -75,6 +76,15 @@ class QueryBuilder
         return $this->addExpression(new Where($expression, false, true));
     }
 
+    /**
+     * @param string[] $fields
+     * @return self
+     * @throws Exceptions\InvalidArgumentException
+     */
+    public function groupBy(array $fields): self
+    {
+        return $this->addExpression(new GroupBy($fields));
+    }
     public function getQuery(bool $format = false): string
     {
         // Sort expressions by priority

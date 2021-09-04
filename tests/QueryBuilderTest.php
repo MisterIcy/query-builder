@@ -134,4 +134,13 @@ class QueryBuilderTest extends TestCase
 
         $this->assertEquals('SELECT `id` `testId` FROM `test` `t`;', $qb->getQuery());
     }
+    public function testGroupByField(): void
+    {
+        $qb = new QueryBuilder();
+        $qb->select()
+            ->from('test')
+            ->groupBy(['id']);
+
+        $this->assertEquals('SELECT * FROM `test` `t` GROUP BY id;', $qb->getQuery());
+    }
 }
