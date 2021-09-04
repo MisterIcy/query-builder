@@ -7,9 +7,12 @@ use MisterIcy\QueryBuilder\BuilderTraits\IndexTrait;
 use MisterIcy\QueryBuilder\Expressions\AbstractExpression;
 use MisterIcy\QueryBuilder\Expressions\From;
 use MisterIcy\QueryBuilder\Expressions\FromQuery;
+use MisterIcy\QueryBuilder\Expressions\FullJoin;
 use MisterIcy\QueryBuilder\Expressions\GroupBy;
 use MisterIcy\QueryBuilder\Expressions\InnerJoin;
 use MisterIcy\QueryBuilder\Expressions\JoinExpression;
+use MisterIcy\QueryBuilder\Expressions\LeftJoin;
+use MisterIcy\QueryBuilder\Expressions\RightJoin;
 use MisterIcy\QueryBuilder\Expressions\Select;
 use MisterIcy\QueryBuilder\Expressions\Where;
 use MisterIcy\QueryBuilder\Operations\AbstractOperation;
@@ -82,6 +85,16 @@ class QueryBuilder
     public function innerJoin(string $table, AbstractOperation $joinOn, string $alias = 't'): self
     {
         return $this->addExpression(new InnerJoin($table, $joinOn, $alias));
+    }
+
+    public function leftJoin(string $table, AbstractOperation $joinOn, bool $outer = false, string $alias = 't'): self
+    {
+        return $this->addExpression(new LeftJoin($table, $joinOn, $outer, $alias));
+    }
+
+    public function rightJoin(string $table, AbstractOperation $joinOn, bool $outer = false, string $alias = 't'): self
+    {
+        return $this->addExpression(new RightJoin($table, $joinOn, $outer, $alias));
     }
 
     /**

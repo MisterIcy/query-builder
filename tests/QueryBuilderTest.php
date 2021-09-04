@@ -168,4 +168,53 @@ class QueryBuilderTest extends TestCase
             $qb->getQuery()
         );
     }
+    public function testLeftJoin(): void
+    {
+        $qb = new QueryBuilder();
+        $qb->select()
+            ->from('test', 't1')
+            ->leftJoin('test2', new Eq('t1.id', 't2.id'), false, 't2');
+
+        $this->assertEquals(
+            'SELECT * FROM `test` `t1` LEFT JOIN `test2` `t2` ON t1.id = t2.id;',
+            $qb->getQuery()
+        );
+    }
+    public function testLeftOuterJoin(): void
+    {
+        $qb = new QueryBuilder();
+        $qb->select()
+            ->from('test', 't1')
+            ->leftJoin('test2', new Eq('t1.id', 't2.id'), true, 't2');
+
+        $this->assertEquals(
+            'SELECT * FROM `test` `t1` LEFT OUTER JOIN `test2` `t2` ON t1.id = t2.id;',
+            $qb->getQuery()
+        );
+    }
+
+    public function testRightJoin(): void
+    {
+        $qb = new QueryBuilder();
+        $qb->select()
+            ->from('test', 't1')
+            ->rightJoin('test2', new Eq('t1.id', 't2.id'), false, 't2');
+
+        $this->assertEquals(
+            'SELECT * FROM `test` `t1` RIGHT JOIN `test2` `t2` ON t1.id = t2.id;',
+            $qb->getQuery()
+        );
+    }
+    public function testRightOuterJoin(): void
+    {
+        $qb = new QueryBuilder();
+        $qb->select()
+            ->from('test', 't1')
+            ->rightJoin('test2', new Eq('t1.id', 't2.id'), true, 't2');
+
+        $this->assertEquals(
+            'SELECT * FROM `test` `t1` RIGHT OUTER JOIN `test2` `t2` ON t1.id = t2.id;',
+            $qb->getQuery()
+        );
+    }
 }
