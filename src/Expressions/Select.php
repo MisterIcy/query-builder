@@ -1,7 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MisterIcy\QueryBuilder\Expressions;
 
+/**
+ * Class Select.
+ *
+ * Creates a SELECT Statement.
+ *
+ * @license Apache-2.0
+ * @package MisterIcy\QueryBuilder\Expressions
+ * @since 1.0
+ */
 class Select extends AbstractExpression
 {
     /**
@@ -11,12 +22,18 @@ class Select extends AbstractExpression
      */
     protected array $hints = [];
     /**
+     * An array of fields to be selected.
+     *
      * @var string[]|null
      */
     private ?array $fields;
 
     /**
-     * @param array<string, string>|array<int, string>|null $fields
+     * Creates a new SELECT expression.
+     *
+     * @param array<string, string>|array<int, string>|null $fields An array or fields or null if you want to SELECT *.
+     * If you pass an associative array with keys and values, the keys will become the fields to be selected, while the
+     * values will become their aliases.
      */
     public function __construct(?array $fields = null)
     {
@@ -31,14 +48,14 @@ class Select extends AbstractExpression
      */
     public function __toString(): string
     {
-        $builder = 'SELECT ';
+        $builder = 'SELECT';
 
         if (count($this->hints) > 0) {
-            $builder .= rtrim(implode(' ', $this->hints));
+            $builder .= sprintf(' %s', rtrim(implode(' ', $this->hints)));
         }
 
         if (is_null($this->fields) || count($this->fields) == 0) {
-            $builder .= '*';
+            $builder .= ' *';
             return $builder;
         }
 
@@ -60,6 +77,8 @@ class Select extends AbstractExpression
     }
 
     /**
+     * Returns the hints to be used.
+     *
      * @return string[]
      */
     public function getHints(): array
@@ -68,7 +87,12 @@ class Select extends AbstractExpression
     }
 
     /**
-     * @param string[] $hints
+     * Sets the hints for the SELECT expression.
+     *
+     * Note that there are no internal checks here. You should only set hints that are acceptable by the RDBMS (i.e.
+     * you can add SQL_NO_CACHE and SQL_CACHE, but the query will break).
+     *
+     * @param string[] $hints An array of hints for the SQL Optimizer.
      * @return self
      */
     public function setHints(array $hints = []): self
