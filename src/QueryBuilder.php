@@ -249,19 +249,10 @@ class QueryBuilder
      */
     public function getQuery(bool $format = false): string
     {
-        // Sort expressions by priority
-        $sortedExpressions = $this->expressions;
-        uasort($sortedExpressions, function (AbstractExpression $a, AbstractExpression $b) {
-            if ($a->getPriority() === $b->getPriority()) {
-                return 0;
-            }
-            return ($a->getPriority() < $b->getPriority()) ? -1 : 1;
-        });
+        // Sort expressions by priority:
+        uasort($this->expressions, [$this, 'sortExpressions']);
 
-        $builder = '';
-        foreach ($this->expressions as $expression) {
-            $builder .= $expression . ' ';
-        }
+        $builder = implode(' ', $this->expressions);
         //@codeCoverageIgnoreStart
         if ($format) {
             $builder = SqlFormatter::format($builder, false);
@@ -291,5 +282,20 @@ class QueryBuilder
     {
         $this->isNested = $isNested;
         return $this;
+    }
+
+    /**
+     * Helper function for expression sorting
+     *
+     * @param AbstractExpression $a
+     * @param AbstractExpression $b
+     * @return int
+     */
+    private function sortExpressions(AbstractExpression $a, AbstractExpression $b): int
+    {
+        if ($a->getPriority() === $b->getPriority()) {
+            return 0;
+        }
+        return ($a->getPriority() < $b->getPriority()) ? 1 : -1;
     }
 }
