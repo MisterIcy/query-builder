@@ -48,13 +48,9 @@ class Select extends AbstractExpression
      */
     public function __toString(): string
     {
-        $builder = 'SELECT';
+        $builder = 'SELECT' . $this->injectHints();
 
-        if (count($this->getHints()) > 0) {
-            $builder .= sprintf(' %s', rtrim(implode(' ', $this->hints)));
-        }
-
-        if (is_null($this->fields) || count($this->fields) == 0) {
+        if (is_null($this->fields) || count($this->fields) === 0) {
             $builder .= ' *';
             return $builder;
         }
@@ -72,6 +68,14 @@ class Select extends AbstractExpression
         }
 
         return $builder;
+    }
+
+    private function injectHints(): string
+    {
+        if (count($this->getHints()) > 0) {
+            return sprintf(' %s', rtrim(implode(' ', $this->hints)));
+        }
+        return '';
     }
 
     /**
