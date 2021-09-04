@@ -4,6 +4,7 @@ namespace QueryBuilder\Tests;
 
 use MisterIcy\QueryBuilder\Exceptions\IndexDirectiveAlreadyExistsException;
 use MisterIcy\QueryBuilder\Expressions\Join\InnerJoin;
+use MisterIcy\QueryBuilder\Expressions\Join\JoinExpression;
 use MisterIcy\QueryBuilder\Operations\Eq;
 use MisterIcy\QueryBuilder\Operations\Neq;
 use MisterIcy\QueryBuilder\QueryBuilder;
@@ -237,6 +238,40 @@ class QueryBuilderTest extends TestCase
             );
         $this->assertEquals(
             'SELECT * FROM `test` `t` JOIN (`test2` `t2` INNER JOIN `test3` `t3`) ON (t.id = t2.id AND t2.id = t3.id);',
+            $qb->getQuery()
+        );
+    }
+
+    public function testNestedOuterJoin(): void
+    {
+        $qb = new QueryBuilder();
+        $qb->select()
+            ->from('test')
+            ->nestedJoin(
+                'test2',
+                new Eq('t.id', 't2.id'),
+                [
+                    new InnerJoin('test3', new Eq('t2.id', 't3.id'), 't3')
+                ],
+                't2',
+                JoinExpression::LEFT_JOIN,
+                true
+            );
+        $this->assertEquals(
+            'SELECT * FROM `test` `t` LEFT OUTER JOIN (`test2` `t2` INNER JOIN `test3` `t3`) ON (t.id = t2.id AND t2.id = t3.id);',
+            $qb->getQuery()
+        );
+    }
+
+    public function testSimpleJoin(): void
+    {
+        $qb = new QueryBuilder();
+        $qb->select()
+            ->from('test', 't1')
+            ->join('test2', new Eq('t1.id', 't2.id'), 't2');
+
+        $this->assertEquals(
+            'SELECT * FROM `test` `t1` JOIN `test2` `t2` ON t1.id = t2.id;',
             $qb->getQuery()
         );
     }

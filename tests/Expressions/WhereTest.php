@@ -83,9 +83,4 @@ final class WhereTest extends TestCase
         );
         $this->assertEquals('WHERE 1 = 1 AND 1 < 2 OR 1 > 2', strval($where));
     }
-    public function testNestedWhere(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        new Where(new Where(new Eq(1,1)));
-    }
 }

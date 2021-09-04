@@ -34,10 +34,7 @@ class NestedJoin extends JoinExpression
 
     public function __toString(): string
     {
-        $builder = sprintf('%s JOIN', $this->type);
-        if ($this->outer) {
-            $builder .= ' ' . self::OUTER_JOIN;
-        }
+        $builder = sprintf('%s%s JOIN', $this->type, ($this->outer) ? ' ' . self::OUTER_JOIN : '');
         $builder = ltrim($builder);
 
         $builder .= sprintf(' %s`%s` `%s`', $this->preSeparator, $this->table, $this->alias);

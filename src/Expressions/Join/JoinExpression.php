@@ -22,18 +22,18 @@ class JoinExpression extends AbstractExpression
         string $table,
         AbstractOperation $joinOn,
         string $alias = 't'
-    )
-    {
+    ) {
         parent::__construct(self::PRIORITY_JOIN);
         $this->table = $table;
         $this->joinOn = $joinOn;
         $this->alias = $alias;
     }
+
     public function __toString(): string
     {
         return sprintf(
-            '%s JOIN `%s` `%s` ON %s',
-            $this->type,
+            '%sJOIN `%s` `%s` ON %s',
+            !empty($this->type) ? $this->type . ' ' : '',
             $this->table,
             $this->alias,
             strval($this->joinOn)
