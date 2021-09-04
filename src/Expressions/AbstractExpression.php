@@ -15,6 +15,11 @@ use Countable;
  */
 abstract class AbstractExpression implements Countable
 {
+    protected const PRIORITY_BEGIN_TRANSACTION = 200;
+    protected const PRIORITY_SELECT = 100;
+    protected const PRIORITY_FROM = 90;
+    protected const PRIORITY_INDEX = 85;
+
     protected string $preSeparator = '(';
     protected string $separator = ", ";
     protected string $postSeparator = ")";
