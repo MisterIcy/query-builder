@@ -1,6 +1,7 @@
 # QueryBuilder
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MisterIcy/query-builder/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/MisterIcy/query-builder/?branch=main) 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MisterIcy/query-builder/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/MisterIcy/query-builder/?branch=main)
+[![Code Coverage](https://scrutinizer-ci.com/g/MisterIcy/query-builder/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/MisterIcy/query-builder/?branch=main)
 [![Build Status](https://scrutinizer-ci.com/g/MisterIcy/query-builder/badges/build.png?b=main)](https://scrutinizer-ci.com/g/MisterIcy/query-builder/build-status/main) 
 [![QueryBuilder Checks](https://github.com/MisterIcy/query-builder/actions/workflows/ci.yaml/badge.svg)](https://github.com/MisterIcy/query-builder/actions/workflows/ci.yaml) 
 [![codecov](https://codecov.io/gh/MisterIcy/query-builder/branch/main/graph/badge.svg?token=4WVEMKNJUO)](https://codecov.io/gh/MisterIcy/query-builder)
