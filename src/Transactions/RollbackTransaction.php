@@ -17,7 +17,7 @@ final class RollbackTransaction extends TransactionExpression
      * Creates a new Rollback Expression.
      * @param string|null $transactionId An optional transaction ID.
      */
-    public function __construct(?string $transactionId)
+    public function __construct(?string $transactionId = null)
     {
         parent::__construct(-100);
         $this->transactionId = $transactionId;
