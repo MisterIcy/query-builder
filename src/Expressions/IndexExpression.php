@@ -29,5 +29,4 @@ abstract class IndexExpression extends AbstractExpression
             $this->postSeparator
         );
     }
-
 }

@@ -3,7 +3,6 @@
 namespace MisterIcy\QueryBuilder\Operations;
 
 use MisterIcy\QueryBuilder\Exceptions\InvalidArgumentException;
-use MisterIcy\QueryBuilder\Exceptions\NullArgumentException;
 use MisterIcy\QueryBuilder\Expressions\AbstractExpression;
 use ReflectionException;
 use ReflectionFunction;
@@ -34,7 +33,7 @@ abstract class AbstractOperation extends AbstractExpression
      */
     public function __construct($leftOperand, $rightOperand)
     {
-        parent::__construct(0);
+        parent::__construct();
         $this->leftOperand = $leftOperand;
         $this->rightOperand = $rightOperand;
         $this->checkOperandTypes();
@@ -64,7 +63,7 @@ abstract class AbstractOperation extends AbstractExpression
      * @throws InvalidArgumentException
      * @throws ReflectionException
      */
-    private function checkOperand($operand, $types): void
+    private function checkOperand($operand, array $types): void
     {
         foreach ($types as $type) {
             $function = new ReflectionFunction('is_' . $type);

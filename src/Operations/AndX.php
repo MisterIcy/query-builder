@@ -24,16 +24,15 @@ final class AndX extends AbstractOperation
     /**
      * @inheritDoc
      */
-    public function __toString() :string
+    public function __toString(): string
     {
         $builder = '';
         foreach ($this->expressions as $operation) {
-            $builder .= strval($operation) . self::AND;
+            $builder .= $operation . self::AND;
         }
         if (str_ends_with($builder, self::AND)) {
             $builder = rtrim($builder, self::AND);
         }
         return $builder;
     }
-
 }

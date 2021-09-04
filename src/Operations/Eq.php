@@ -16,5 +16,4 @@ final class Eq extends AbstractOperation
         parent::__construct($leftOperand, $rightOperand);
         $this->operator = '=';
     }
-
 }

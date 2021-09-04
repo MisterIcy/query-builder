@@ -35,5 +35,4 @@ final class OrX extends AbstractOperation
         }
         return $builder;
     }
-
 }

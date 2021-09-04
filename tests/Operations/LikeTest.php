@@ -12,5 +12,4 @@ final class LikeTest extends TestCase
         $like = new Like('test', '%test%');
         $this->assertEquals('test LIKE %test%', strval($like));
     }
-
 }

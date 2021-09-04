@@ -12,5 +12,4 @@ final class IsNotNullTest extends TestCase
         $nn = new IsNotNull('test');
         $this->assertEquals('test IS NOT NULL', strval($nn));
     }
-
 }

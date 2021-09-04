@@ -13,5 +13,4 @@ final class Neq extends AbstractOperation
         parent::__construct($leftOperand, $rightOperand);
         $this->operator = '!=';
     }
-
 }

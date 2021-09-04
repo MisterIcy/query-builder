@@ -11,5 +11,4 @@ class NopTest extends TestCase
     {
         $this->assertEquals('', strval(new Nop()));
     }
-
 }

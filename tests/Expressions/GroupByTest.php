@@ -17,5 +17,4 @@ final class GroupByTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         new GroupBy([]);
     }
-
 }

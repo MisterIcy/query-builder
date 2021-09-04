@@ -56,7 +56,7 @@ class Select extends AbstractExpression
         }
 
         $builder .= $this->postSeparator;
-        $assoc = self::has_string_keys($this->fields);
+        $assoc = self::hasStringKeys($this->fields);
 
         foreach ($this->fields as $key => $value) {
             $builder .= sprintf('`%s` `%s`', ($assoc) ? $key : $value, $value);

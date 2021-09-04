@@ -2,7 +2,6 @@
 
 namespace MisterIcy\QueryBuilder\Expressions;
 
-use MisterIcy\QueryBuilder\Exceptions\InvalidArgumentException;
 use MisterIcy\QueryBuilder\Operations\AbstractOperation;
 
 class Where extends AbstractExpression
@@ -33,7 +32,7 @@ class Where extends AbstractExpression
             $builder .= 'WHERE ';
         }
 
-        $builder .= strval($this->expression);
+        $builder .= $this->expression;
 
         return $builder;
     }

@@ -59,5 +59,4 @@ class NestedJoin extends JoinExpression
         $builder .= $this->postSeparator;
         return $builder;
     }
-
 }

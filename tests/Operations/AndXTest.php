@@ -22,5 +22,4 @@ final class AndXTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         new AndX([]);
     }
-
 }

@@ -2,8 +2,10 @@
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MisterIcy/query-builder/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/MisterIcy/query-builder/?branch=main)
 [![Code Coverage](https://scrutinizer-ci.com/g/MisterIcy/query-builder/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/MisterIcy/query-builder/?branch=main)
-[![Build Status](https://scrutinizer-ci.com/g/MisterIcy/query-builder/badges/build.png?b=main)](https://scrutinizer-ci.com/g/MisterIcy/query-builder/build-status/main) 
-[![QueryBuilder Checks](https://github.com/MisterIcy/query-builder/actions/workflows/ci.yaml/badge.svg)](https://github.com/MisterIcy/query-builder/actions/workflows/ci.yaml) 
+[![Build Status](https://scrutinizer-ci.com/g/MisterIcy/query-builder/badges/build.png?b=main)](https://scrutinizer-ci.com/g/MisterIcy/query-builder/build-status/main)
+[![QueryBuilder Testing](https://github.com/MisterIcy/query-builder/actions/workflows/testing.yaml/badge.svg)](https://github.com/MisterIcy/query-builder/actions/workflows/testing.yaml)
+[![Static Analysis](https://github.com/MisterIcy/query-builder/actions/workflows/static-analysis.yml/badge.svg?branch=main)](https://github.com/MisterIcy/query-builder/actions/workflows/static-analysis.yml)
+[![Coding Standards](https://github.com/MisterIcy/query-builder/actions/workflows/coding-styles.yml/badge.svg)](https://github.com/MisterIcy/query-builder/actions/workflows/coding-styles.yml)
 [![codecov](https://codecov.io/gh/MisterIcy/query-builder/branch/main/graph/badge.svg?token=4WVEMKNJUO)](https://codecov.io/gh/MisterIcy/query-builder)
 
 SQL Query Crafter for MySQL/MariaDB

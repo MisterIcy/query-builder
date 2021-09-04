@@ -33,5 +33,4 @@ final class In extends AbstractOperation
         }
         return sprintf("%s %s (%s)", $this->leftOperand, $this->operator, $this->rightOperand);
     }
-
 }

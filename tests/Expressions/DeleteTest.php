@@ -23,6 +23,4 @@ final class DeleteTest extends TestCase
         $delete->setIgnore(true);
         $this->assertEquals('DELETE IGNORE FROM `test` `t`', strval($delete));
     }
-
-
 }

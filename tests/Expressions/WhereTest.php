@@ -47,7 +47,8 @@ final class WhereTest extends TestCase
                     new Eq(1, 1),
                     new Neq(1, 2)
                 ]
-            ), true
+            ),
+            true
         );
         $this->assertEquals('AND 1 = 1 AND 1 != 2', strval($where));
     }
@@ -66,7 +67,9 @@ final class WhereTest extends TestCase
                     new Eq(1, 1),
                     new Neq(1, 2)
                 ]
-            ), false, true
+            ),
+            false,
+            true
         );
         $this->assertEquals('OR 1 = 1 AND 1 != 2', strval($where));
     }

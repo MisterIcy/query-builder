@@ -6,7 +6,7 @@ final class Nop extends AbstractOperation
 {
     public function __construct()
     {
-        $this->forbiddenTypes = ['left' => [], 'right' =>[]];
+        $this->forbiddenTypes = ['left' => [], 'right' => []];
         parent::__construct(null, null);
     }
 
