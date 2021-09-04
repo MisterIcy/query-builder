@@ -9,6 +9,7 @@ final class IsNotNull extends AbstractOperation
      */
     public function __construct($leftOperand)
     {
+        $this->forbiddenTypes['right'] = [];
         parent::__construct($leftOperand, null);
         $this->operator = 'IS NOT NULL';
     }

@@ -14,17 +14,17 @@ final class NeqTest extends TestCase
         $eq = new Neq(1, 2);
         $this->assertEquals('1 != 2', strval($eq));
     }
-    public function testEqualityWithOneParameter(): void
+    public function testInequalityWithOneParameter(): void
     {
         $this->expectException(NullArgumentException::class);
         new Neq(1, null);
     }
-    public function testEqualityWithNoParameters(): void
+    public function testInequalityWithNoParameters(): void
     {
         $this->expectException(NullArgumentException::class);
         new Neq(null, null);
     }
-    public function testEqualityWithArrayOrObject(): void
+    public function testInequalityWithArrayOrObject(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new Neq([1], [2]);
