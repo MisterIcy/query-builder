@@ -48,3 +48,10 @@ jobs:
 
       - name: Run Static Analysis
         run: composer run analyze
+
+      - name: Upload to Codecov.io
+        uses: actions/codecov-action@v2
+        with:
+          files: ./coverage.xml
+          fail_ci_if_error: true
+          verbose: true

@@ -4,3 +4,4 @@ phpunit.xml
 phpstan.neon
 .phpunit.cache/
 coverage/
+coverage.xml
