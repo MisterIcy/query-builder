@@ -5,3 +5,4 @@ phpstan.neon
 .phpunit.cache/
 coverage/
 coverage.xml
+/.phpunit.result.cache

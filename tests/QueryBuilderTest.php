@@ -126,7 +126,7 @@ class QueryBuilderTest extends TestCase
         $this->assertEquals('SELECT * FROM (SELECT * FROM `test1` `t`) `c`;', $qb2->getQuery());
     }
 
-    public function testSelectFields()
+    public function testSelectFields(): void
     {
         $qb = new QueryBuilder();
         $qb->select(['id' => 'testId'])
