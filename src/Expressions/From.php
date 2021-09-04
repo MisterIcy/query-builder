@@ -11,7 +11,7 @@ namespace MisterIcy\QueryBuilder\Expressions;
  * @package MisterIcy\QueryBuilder\Expressions
  * @since 1.0
  */
-final class From extends AbstractExpression
+class From extends AbstractExpression
 {
     /**
      * The name of the table to fetch data from.
@@ -25,6 +25,8 @@ final class From extends AbstractExpression
      */
     private string $alias;
 
+    protected bool $nested = false;
+
     /**
      * Creates a new FROM expression.
      *
@@ -33,7 +35,7 @@ final class From extends AbstractExpression
      */
     public function __construct(string $table, string $alias)
     {
-        parent::__construct(90);
+        parent::__construct(self::PRIORITY_FROM);
         $this->table = $table;
         $this->alias = $alias;
     }
@@ -43,6 +45,9 @@ final class From extends AbstractExpression
      */
     public function __toString(): string
     {
-        return sprintf('FROM `%s` `%s`', $this->table, $this->alias);
+        if (!$this->nested) {
+            $this->table = sprintf('`%s`', $this->table);
+        }
+        return sprintf('FROM %s `%s`', $this->table, $this->alias);
     }
 }

@@ -6,6 +6,7 @@ use MisterIcy\QueryBuilder\BuilderTraits\BuilderTrait;
 use MisterIcy\QueryBuilder\BuilderTraits\IndexTrait;
 use MisterIcy\QueryBuilder\Expressions\AbstractExpression;
 use MisterIcy\QueryBuilder\Expressions\From;
+use MisterIcy\QueryBuilder\Expressions\FromQuery;
 use MisterIcy\QueryBuilder\Expressions\Select;
 use MisterIcy\QueryBuilder\Expressions\Where;
 use MisterIcy\QueryBuilder\Transactions\CommitTransaction;
@@ -17,6 +18,8 @@ class QueryBuilder
 {
     use BuilderTrait;
     use IndexTrait;
+
+    protected bool $isNested = false;
 
     public function __construct()
     {
@@ -52,6 +55,11 @@ class QueryBuilder
         return $this->addExpression(new From($table, $alias));
     }
 
+    public function fromQuery(QueryBuilder $builder, string $alias = 't'): self
+    {
+        return $this->addExpression(new FromQuery($builder, $alias));
+    }
+
     public function where(AbstractExpression $expression): self
     {
         return $this->addExpression(new Where($expression));
@@ -71,7 +79,7 @@ class QueryBuilder
     {
         // Sort expressions by priority
         $sortedExpressions = $this->expressions;
-        uasort($sortedExpressions, function(AbstractExpression $a, AbstractExpression $b) {
+        uasort($sortedExpressions, function (AbstractExpression $a, AbstractExpression $b) {
             if ($a->getPriority() == $b->getPriority()) {
                 return 0;
             }
@@ -82,14 +90,33 @@ class QueryBuilder
         foreach ($this->expressions as $expression) {
             $builder .= $expression . ' ';
         }
+        //@codeCoverageIgnoreStart
         if ($format) {
             $builder = SqlFormatter::format($builder, false);
         }
+        //@codeCoverageIgnoreEnd
 
         $builder = rtrim($builder);
-        if (!str_ends_with($builder, ';')) {
+        if (!str_ends_with($builder, ';') && !$this->isNested()) {
             $builder .= ';';
         }
         return $builder;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNested(): bool
+    {
+        return $this->isNested;
+    }
+
+    /**
+     * @param bool $isNested
+     */
+    public function setIsNested(bool $isNested): self
+    {
+        $this->isNested = $isNested;
+        return $this;
     }
 }

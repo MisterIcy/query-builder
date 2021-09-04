@@ -2,13 +2,11 @@
 
 namespace MisterIcy\QueryBuilder\Operations;
 
+use MisterIcy\QueryBuilder\Exceptions\InvalidArgumentException;
+
 final class AndX extends AbstractOperation
 {
     private const AND = ' AND ';
-    /**
-     * @var array<AbstractOperation>
-     */
-    private array $operations;
 
     /**
      * @param array<AbstractOperation> $operations
@@ -17,7 +15,10 @@ final class AndX extends AbstractOperation
     {
         $this->forbiddenTypes = ['left' => [], 'right' => []];
         parent::__construct(null, null);
-        $this->operations = $operations;
+        $this->expressions = $operations;
+        if ($this->count() === 0) {
+            throw new InvalidArgumentException('AndX requires at least one operation');
+        }
     }
 
     /**
@@ -26,7 +27,7 @@ final class AndX extends AbstractOperation
     public function __toString() :string
     {
         $builder = '';
-        foreach ($this->operations as $operation) {
+        foreach ($this->expressions as $operation) {
             $builder .= strval($operation) . self::AND;
         }
         if (str_ends_with($builder, self::AND)) {

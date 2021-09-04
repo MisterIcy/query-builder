@@ -2,6 +2,7 @@
 
 namespace QueryBuilder\Tests\Operations;
 
+use MisterIcy\QueryBuilder\Exceptions\InvalidArgumentException;
 use MisterIcy\QueryBuilder\Operations\Eq;
 use MisterIcy\QueryBuilder\Operations\Neq;
 use MisterIcy\QueryBuilder\Operations\OrX;
@@ -16,5 +17,9 @@ final class OrXTest extends TestCase
         $and = new OrX([$eq, $neq]);
         $this->assertEquals('1 = 1 OR 1 != 2', strval($and));
     }
-
+    public function testSimpleOrWithoutOps(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new OrX([]);
+    }
 }

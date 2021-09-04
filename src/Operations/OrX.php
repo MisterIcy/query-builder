@@ -2,13 +2,11 @@
 
 namespace MisterIcy\QueryBuilder\Operations;
 
+use MisterIcy\QueryBuilder\Exceptions\InvalidArgumentException;
+
 final class OrX extends AbstractOperation
 {
     private const OR = ' OR ';
-    /**
-     * @var array<AbstractOperation>
-     */
-    private array $operations;
 
     /**
      * @param array<AbstractOperation> $operations
@@ -17,7 +15,10 @@ final class OrX extends AbstractOperation
     {
         $this->forbiddenTypes = ['left' => [], 'right' => []];
         parent::__construct(null, null);
-        $this->operations = $operations;
+        $this->expressions = $operations;
+        if ($this->count() === 0) {
+            throw new InvalidArgumentException('OrX requires at least one operation');
+        }
     }
 
     /**
@@ -26,7 +27,7 @@ final class OrX extends AbstractOperation
     public function __toString(): string
     {
         $builder = '';
-        foreach ($this->operations as $operation) {
+        foreach ($this->expressions as $operation) {
             $builder .= $operation . self::OR;
         }
         if (str_ends_with($builder, self::OR)) {

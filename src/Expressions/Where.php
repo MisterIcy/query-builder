@@ -2,6 +2,8 @@
 
 namespace MisterIcy\QueryBuilder\Expressions;
 
+use MisterIcy\QueryBuilder\Exceptions\InvalidArgumentException;
+
 class Where extends AbstractExpression
 {
     private AbstractExpression $expression;
@@ -11,6 +13,9 @@ class Where extends AbstractExpression
     public function __construct(AbstractExpression $expression, bool $isAnd = false, bool $isOr = false)
     {
         parent::__construct(50);
+        if ($expression instanceof Where) {
+            throw new InvalidArgumentException('You cannot use a WHERE expression inside a WHERE expression');
+        }
         $this->expression = $expression;
         $this->isAnd = $isAnd;
         $this->isOr = $isOr;
@@ -23,18 +28,15 @@ class Where extends AbstractExpression
     {
         $builder = '';
         if ($this->isAnd) {
-            $builder .= 'AND' . $this->preSeparator;
+            $builder .= 'AND ';
         } elseif ($this->isOr) {
-            $builder .= 'OR' . $this->preSeparator;
+            $builder .= 'OR ';
         } else {
             $builder .= 'WHERE ';
         }
 
         $builder .= strval($this->expression);
 
-        if ($this->isOr || $this->isAnd) {
-            $builder .= $this->postSeparator;
-        }
         return $builder;
     }
 }

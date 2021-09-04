@@ -50,7 +50,7 @@ class Select extends AbstractExpression
     {
         $builder = 'SELECT';
 
-        if (count($this->hints) > 0) {
+        if (count($this->getHints()) > 0) {
             $builder .= sprintf(' %s', rtrim(implode(' ', $this->hints)));
         }
 
@@ -70,8 +70,6 @@ class Select extends AbstractExpression
         if (str_ends_with($builder, $this->separator)) {
             $builder = rtrim($builder, $this->separator);
         }
-
-        $builder .= $this->postSeparator;
 
         return $builder;
     }
