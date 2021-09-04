@@ -55,3 +55,8 @@ jobs:
           files: ./coverage.xml
           fail_ci_if_error: true
           verbose: true
+
+      - name: Upload coverage to Scrutinizer
+        uses: sudo-bot/action-scrutinizer@latest
+        with:
+          cli-args: "--format=php-clover ./coverage.xml"
