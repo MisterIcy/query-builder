@@ -1,4 +1,4 @@
-name: Coding Standars
+name: Coding Standards
 on:
   pull_request:
     branches:
@@ -10,8 +10,8 @@ on:
       - "*.x"
 
 jobs:
-  static-analysis:
-    name: Static Analysis with PHPStan (PHP ${{matrix.php_versions}})
+  coding-standards:
+    name: Check Coding Standards
     runs-on: ubuntu-latest
 
     strategy:
