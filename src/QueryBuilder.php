@@ -8,9 +8,11 @@ use MisterIcy\QueryBuilder\Expressions\AbstractExpression;
 use MisterIcy\QueryBuilder\Expressions\From;
 use MisterIcy\QueryBuilder\Expressions\FromQuery;
 use MisterIcy\QueryBuilder\Expressions\GroupBy;
-use MisterIcy\QueryBuilder\Expressions\InnerJoin;
-use MisterIcy\QueryBuilder\Expressions\LeftJoin;
-use MisterIcy\QueryBuilder\Expressions\RightJoin;
+use MisterIcy\QueryBuilder\Expressions\Join\InnerJoin;
+use MisterIcy\QueryBuilder\Expressions\Join\JoinExpression;
+use MisterIcy\QueryBuilder\Expressions\Join\LeftJoin;
+use MisterIcy\QueryBuilder\Expressions\Join\NestedJoin;
+use MisterIcy\QueryBuilder\Expressions\Join\RightJoin;
 use MisterIcy\QueryBuilder\Expressions\Select;
 use MisterIcy\QueryBuilder\Expressions\Where;
 use MisterIcy\QueryBuilder\Operations\AbstractOperation;
@@ -96,6 +98,26 @@ class QueryBuilder
     }
 
     /**
+     * @param string $table
+     * @param AbstractOperation $joinOn
+     * @param array<JoinExpression> $joins
+     * @param string $alias
+     * @param string $type
+     * @param bool $outer
+     * @return self
+     */
+    public function nestedJoin(
+        string $table,
+        AbstractOperation $joinOn,
+        array $joins,
+        string $alias = 'c',
+        string $type = '',
+        bool $outer = false
+    ): self {
+        return $this->addExpression(new NestedJoin($table, $joinOn, $joins, $alias, $type, $outer));
+    }
+
+    /**
      * @param string[] $fields
      * @return self
      * @throws Exceptions\InvalidArgumentException
@@ -143,6 +165,7 @@ class QueryBuilder
 
     /**
      * @param bool $isNested
+     * @return QueryBuilder
      */
     public function setIsNested(bool $isNested): self
     {

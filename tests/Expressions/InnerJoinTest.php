@@ -2,7 +2,7 @@
 
 namespace QueryBuilder\Tests\Expressions;
 
-use MisterIcy\QueryBuilder\Expressions\InnerJoin;
+use MisterIcy\QueryBuilder\Expressions\Join\InnerJoin;
 use MisterIcy\QueryBuilder\Operations\Eq;
 use PHPUnit\Framework\TestCase;
 

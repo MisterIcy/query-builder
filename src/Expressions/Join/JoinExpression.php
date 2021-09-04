@@ -1,14 +1,20 @@
 <?php
 
-namespace MisterIcy\QueryBuilder\Expressions;
+namespace MisterIcy\QueryBuilder\Expressions\Join;
 
+use MisterIcy\QueryBuilder\Expressions\AbstractExpression;
 use MisterIcy\QueryBuilder\Operations\AbstractOperation;
 
-abstract class JoinExpression extends AbstractExpression
+class JoinExpression extends AbstractExpression
 {
-    private string $table;
-    private AbstractOperation $joinOn;
-    private string $alias;
+    public const INNER_JOIN = 'INNER';
+    public const LEFT_JOIN = 'LEFT';
+    public const OUTER_JOIN = 'OUTER';
+    public const RIGHT_JOIN = 'RIGHT';
+
+    protected string $table;
+    protected AbstractOperation $joinOn;
+    protected string $alias;
 
     protected string $type = '';
 
