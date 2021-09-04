@@ -16,12 +16,12 @@ final class NeqTest extends TestCase
     }
     public function testInequalityWithOneParameter(): void
     {
-        $this->expectException(NullArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Neq(1, null);
     }
     public function testInequalityWithNoParameters(): void
     {
-        $this->expectException(NullArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Neq(null, null);
     }
     public function testInequalityWithArrayOrObject(): void

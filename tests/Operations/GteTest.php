@@ -16,12 +16,12 @@ final class GteTest extends TestCase
     }
     public function testGreaterThanOrEqualWithOneParameter(): void
     {
-        $this->expectException(NullArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Gte(1, null);
     }
     public function testGreaterThanOrEqualWithNoParameters(): void
     {
-        $this->expectException(NullArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Gte(null, null);
     }
     public function testGreaterThanOrEqualWithArrayOrObject(): void

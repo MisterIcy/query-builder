@@ -16,12 +16,12 @@ final class EqTest extends TestCase
     }
     public function testEqualityWithOneParameter(): void
     {
-        $this->expectException(NullArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Eq(1, null);
     }
     public function testEqualityWithNoParameters(): void
     {
-        $this->expectException(NullArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Eq(null, null);
     }
     public function testEqualityWithArrayOrObject(): void

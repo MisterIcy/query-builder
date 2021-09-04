@@ -5,6 +5,8 @@ namespace MisterIcy\QueryBuilder\Operations;
 use MisterIcy\QueryBuilder\Exceptions\InvalidArgumentException;
 use MisterIcy\QueryBuilder\Exceptions\NullArgumentException;
 use MisterIcy\QueryBuilder\Expressions\AbstractExpression;
+use ReflectionException;
+use ReflectionFunction;
 
 abstract class AbstractOperation extends AbstractExpression
 {
@@ -59,48 +61,15 @@ abstract class AbstractOperation extends AbstractExpression
     /**
      * @param mixed $operand
      * @param string[] $types
-     * @throws NullArgumentException
      * @throws InvalidArgumentException
+     * @throws ReflectionException
      */
     private function checkOperand($operand, $types): void
     {
         foreach ($types as $type) {
-            switch ($type) {
-                case 'null':
-                    if (is_null($operand)) {
-                        throw new NullArgumentException();
-                    }
-                    break;
-                case 'object':
-                    if (is_object($operand)) {
-                        throw new InvalidArgumentException();
-                    }
-                    break;
-                case 'array':
-                    if (is_array($operand)) {
-                        throw new InvalidArgumentException();
-                    }
-                    break;
-                case 'string':
-                    if (is_string($operand)) {
-                        throw new InvalidArgumentException();
-                    }
-                    break;
-                case 'int':
-                    if (is_int($operand)) {
-                        throw new InvalidArgumentException();
-                    }
-                    break;
-                case 'bool':
-                    if (is_bool($operand)) {
-                        throw new InvalidArgumentException();
-                    }
-                    break;
-                case 'float':
-                    if (is_float($operand)) {
-                        throw new InvalidArgumentException();
-                    }
-                    break;
+            $function = new ReflectionFunction('is_' . $type);
+            if ($function->invoke($operand) === true) {
+                throw new InvalidArgumentException();
             }
         }
     }

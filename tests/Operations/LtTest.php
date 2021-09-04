@@ -16,12 +16,12 @@ final class LtTest extends TestCase
     }
     public function testLessThanWithOneParameter(): void
     {
-        $this->expectException(NullArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Lt(1, null);
     }
     public function testLessThanWithNoParameters(): void
     {
-        $this->expectException(NullArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Lt(null, null);
     }
     public function testLessThanWithArrayOrObject(): void

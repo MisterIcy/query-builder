@@ -16,12 +16,12 @@ final class GtTest extends TestCase
     }
     public function testGreaterThanWithOneParameter(): void
     {
-        $this->expectException(NullArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Gt(1, null);
     }
     public function testGreaterThanWithNoParameters(): void
     {
-        $this->expectException(NullArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Gt(null, null);
     }
     public function testGreaterThanWithArrayOrObject(): void
