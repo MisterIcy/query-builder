@@ -6,8 +6,14 @@ use MisterIcy\QueryBuilder\Expressions\AbstractExpression;
 
 abstract class AbstractOperation extends AbstractExpression
 {
-    protected object $leftOperand;
-    protected object $rightOperand;
+    /**
+     * @var mixed
+     */
+    protected $leftOperand;
+    /**
+     * @var mixed
+     */
+    protected $rightOperand;
     protected string $operator;
 
     /**
