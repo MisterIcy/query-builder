@@ -10,6 +10,7 @@ use MisterIcy\QueryBuilder\Expressions\IndexExpression;
 use MisterIcy\QueryBuilder\Expressions\InsertInto;
 use MisterIcy\QueryBuilder\Expressions\Join\JoinExpression;
 use MisterIcy\QueryBuilder\Expressions\Select;
+use MisterIcy\QueryBuilder\QueryBuilder;
 
 trait BuilderTrait
 {
@@ -61,10 +62,10 @@ trait BuilderTrait
     protected function setOperation(AbstractExpression $expression): self
     {
         if ($expression instanceof Select) {
-            $this->currentOperation = self::OPERATION_SELECT;
+            $this->currentOperation = QueryBuilder::OPERATION_SELECT;
         }
         if ($expression instanceof InsertInto) {
-            $this->currentOperation = self::OPERATION_INSERT;
+            $this->currentOperation = QueryBuilder::OPERATION_INSERT;
         }
 
         return $this;
