@@ -15,12 +15,8 @@ namespace MisterIcy\QueryBuilder\Expressions;
  */
 class Select extends AbstractExpression
 {
-    /**
-     * An array of hints for the SELECT clause.
-     *
-     * @var string[]
-     */
-    protected array $hints = [];
+    use HintableExpressionTrait;
+
     /**
      * An array of fields to be selected.
      *
@@ -70,36 +66,11 @@ class Select extends AbstractExpression
         return $builder;
     }
 
-    private function injectHints(): string
+    protected function injectHints(): string
     {
         if (count($this->getHints()) > 0) {
             return sprintf(' %s', rtrim(implode(' ', $this->hints)));
         }
         return '';
-    }
-
-    /**
-     * Returns the hints to be used.
-     *
-     * @return string[]
-     */
-    public function getHints(): array
-    {
-        return $this->hints;
-    }
-
-    /**
-     * Sets the hints for the SELECT expression.
-     *
-     * Note that there are no internal checks here. You should only set hints that are acceptable by the RDBMS (i.e.
-     * you can add SQL_NO_CACHE and SQL_CACHE, but the query will break).
-     *
-     * @param string[] $hints An array of hints for the SQL Optimizer.
-     * @return self
-     */
-    public function setHints(array $hints = []): self
-    {
-        $this->hints = $hints;
-        return $this;
     }
 }

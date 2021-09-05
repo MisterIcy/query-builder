@@ -3,6 +3,9 @@
 namespace QueryBuilder\Tests;
 
 use MisterIcy\QueryBuilder\Exceptions\IndexDirectiveAlreadyExistsException;
+use MisterIcy\QueryBuilder\Exceptions\QueryBuilder\ConflictingOperationsException;
+use MisterIcy\QueryBuilder\Exceptions\QueryBuilder\DuplicateOperationException;
+use MisterIcy\QueryBuilder\Exceptions\QueryBuilder\JoinWithoutFromException;
 use MisterIcy\QueryBuilder\Expressions\Join\InnerJoin;
 use MisterIcy\QueryBuilder\Expressions\Join\JoinExpression;
 use MisterIcy\QueryBuilder\Operations\Eq;
@@ -309,5 +312,35 @@ class QueryBuilderTest extends TestCase
             ->orderBy(['id' => 'ASC']);
 
         $this->assertEquals('SELECT * FROM `test` `t` ORDER BY id ASC LIMIT 0, 10;', $qb->getQuery());
+    }
+
+    public function testDoubleSelect(): void
+    {
+        $this->expectException(DuplicateOperationException::class);
+        $qb = new QueryBuilder();
+        $qb->select()
+            ->select(['id']);
+    }
+
+    public function testJoinWithoutFrom(): void
+    {
+        $this->expectException(JoinWithoutFromException::class);
+        $qb = new QueryBuilder();
+        $qb->select()
+            ->join('test', new Eq(1, 1), 't');
+    }
+
+    public function testConflictingOperation(): void
+    {
+        $this->expectException(ConflictingOperationsException::class);
+        $qb = new QueryBuilder();
+        $qb->insertInto('test', ['id'])->select();
+    }
+
+    public function testInsertInto(): void
+    {
+        $qb = new QueryBuilder();
+        $qb->insertInto('test', ['id']);
+        $this->assertEquals('INSERT INTO `test` (id) VALUES (:id);', $qb->getQuery());
     }
 }
