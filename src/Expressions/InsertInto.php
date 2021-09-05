@@ -13,7 +13,6 @@ namespace MisterIcy\QueryBuilder\Expressions;
  */
 class InsertInto extends AbstractExpression
 {
-
     use HintableExpressionTrait;
 
     private string $table;
