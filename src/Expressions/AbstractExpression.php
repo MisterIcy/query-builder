@@ -16,6 +16,7 @@ use Countable;
 abstract class AbstractExpression implements Countable
 {
     protected const PRIORITY_BEGIN_TRANSACTION = 200;
+    protected const PRIORITY_INSERT = 110;
     protected const PRIORITY_SELECT = 100;
     protected const PRIORITY_FROM = 90;
     protected const PRIORITY_INDEX = 85;
@@ -28,6 +29,7 @@ abstract class AbstractExpression implements Countable
     protected string $preSeparator = '(';
     protected string $separator = ", ";
     protected string $postSeparator = ")";
+
     /**
      * @var array<AbstractExpression>
      */

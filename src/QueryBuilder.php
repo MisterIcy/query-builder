@@ -4,11 +4,14 @@ namespace MisterIcy\QueryBuilder;
 
 use MisterIcy\QueryBuilder\BuilderTraits\BuilderTrait;
 use MisterIcy\QueryBuilder\BuilderTraits\IndexTrait;
+use MisterIcy\QueryBuilder\Exceptions\QueryBuilder\ConflictingOperationsException;
+use MisterIcy\QueryBuilder\Exceptions\QueryBuilder\DuplicateOperationException;
 use MisterIcy\QueryBuilder\Expressions\AbstractExpression;
 use MisterIcy\QueryBuilder\Expressions\From;
 use MisterIcy\QueryBuilder\Expressions\FromQuery;
 use MisterIcy\QueryBuilder\Expressions\GroupBy;
 use MisterIcy\QueryBuilder\Expressions\Having;
+use MisterIcy\QueryBuilder\Expressions\InsertInto;
 use MisterIcy\QueryBuilder\Expressions\Join\InnerJoin;
 use MisterIcy\QueryBuilder\Expressions\Join\JoinExpression;
 use MisterIcy\QueryBuilder\Expressions\Join\LeftJoin;
@@ -22,7 +25,6 @@ use MisterIcy\QueryBuilder\Operations\AbstractOperation;
 use MisterIcy\QueryBuilder\Transactions\CommitTransaction;
 use MisterIcy\QueryBuilder\Transactions\RollbackTransaction;
 use MisterIcy\QueryBuilder\Transactions\StartTransaction;
-use phpDocumentor\Reflection\DocBlock\Tags\See;
 use SqlFormatter;
 
 /**
@@ -30,19 +32,34 @@ use SqlFormatter;
  *
  * @license Apache-2.0
  * @package MisterIcy\QueryBuilder
- * @since 1.0
+ * @since 0.1.0
  */
 class QueryBuilder
 {
     use BuilderTrait;
     use IndexTrait;
 
+    protected const OPERATION_SELECT = 'SELECT';
+    protected const OPERATION_UPDATE = 'UPDATE';
+    protected const OPERATION_DELETE = 'DELETE';
+    protected const OPERATION_INSERT = 'INSERT';
+
     /**
      * Defines if this query builder is nested inside another query builder.
      *
+     * @since 0.1.0
      * @var bool
+     *
      */
     protected bool $isNested = false;
+
+    /**
+     * Defines if there is an active transaction.
+     *
+     * @since 0.2.0
+     * @var bool
+     */
+    protected bool $activeTransaction = false;
 
     /**
      * Create a new QueryBuilder
@@ -58,8 +75,8 @@ class QueryBuilder
      * only possible in nested QueryBuilders.
      *
      * @param string|null $transactionId A transaction id, optionally, to be able to commit or rollback certain changes.
-     * @since 1.0
      * @return self
+     * @since 1.0
      */
     public function startTransaction(?string $transactionId = null): self
     {
@@ -70,8 +87,8 @@ class QueryBuilder
      * Commit a transaction.
      *
      * @param string|null $transactionId
-     * @since 1.0
      * @return self
+     * @since 1.0
      */
     public function commit(?string $transactionId = null): self
     {
@@ -82,8 +99,8 @@ class QueryBuilder
      * Rollback a transaction.
      *
      * @param string|null $transactionId
-     * @since 1.0
      * @return self
+     * @since 1.0
      */
     public function rollback(?string $transactionId = null): self
     {
@@ -94,11 +111,20 @@ class QueryBuilder
      * Performs a SELECT operation.
      *
      * @param array<string, string>|array<int, string>|null $fields A list of fields, or null to SELECT *.
-     *
      * @return self
+     * @throws DuplicateOperationException When this function has already been called to set up select.
+     * @throws ConflictingOperationsException When the QueryBuilder has been set up for another operation.
+     * @version 0.2.0
+     * @since 0.1.0
      */
     public function select(?array $fields = null): self
     {
+        if ($this->hasOperation()) {
+            if ($this->currentOperation === self::OPERATION_SELECT) {
+                throw new DuplicateOperationException(self::OPERATION_SELECT);
+            }
+            throw new ConflictingOperationsException(self::OPERATION_SELECT, $this->currentOperation);
+        }
         return $this->addExpression(new Select($fields));
     }
 
@@ -255,6 +281,16 @@ class QueryBuilder
     }
 
     /**
+     * @param string $table
+     * @param array<int, string>|array<string, mixed> $fields
+     * @return self
+     */
+    public function insertInto(string $table, array $fields): self
+    {
+        return $this->addExpression(new InsertInto($table, $fields));
+    }
+
+    /**
      * @param array<string, string> $elements
      * @return self
      */
@@ -262,6 +298,7 @@ class QueryBuilder
     {
         return $this->addExpression(new OrderBy($elements));
     }
+
     /**
      * Returns a query.
      *
