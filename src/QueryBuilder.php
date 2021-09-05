@@ -13,6 +13,7 @@ use MisterIcy\QueryBuilder\Expressions\Join\JoinExpression;
 use MisterIcy\QueryBuilder\Expressions\Join\LeftJoin;
 use MisterIcy\QueryBuilder\Expressions\Join\NestedJoin;
 use MisterIcy\QueryBuilder\Expressions\Join\RightJoin;
+use MisterIcy\QueryBuilder\Expressions\Limit;
 use MisterIcy\QueryBuilder\Expressions\Select;
 use MisterIcy\QueryBuilder\Expressions\Where;
 use MisterIcy\QueryBuilder\Operations\AbstractOperation;
@@ -238,6 +239,11 @@ class QueryBuilder
     public function groupBy(array $fields): self
     {
         return $this->addExpression(new GroupBy($fields));
+    }
+
+    public function limit(int $limit, ?int $offset = null): self
+    {
+        return $this->addExpression(new Limit($limit, $offset));
     }
 
     /**
