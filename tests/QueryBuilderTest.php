@@ -6,6 +6,7 @@ use MisterIcy\QueryBuilder\Exceptions\IndexDirectiveAlreadyExistsException;
 use MisterIcy\QueryBuilder\Expressions\Join\InnerJoin;
 use MisterIcy\QueryBuilder\Expressions\Join\JoinExpression;
 use MisterIcy\QueryBuilder\Operations\Eq;
+use MisterIcy\QueryBuilder\Operations\Gte;
 use MisterIcy\QueryBuilder\Operations\Neq;
 use MisterIcy\QueryBuilder\QueryBuilder;
 use PHPUnit\Framework\TestCase;
@@ -272,6 +273,19 @@ class QueryBuilderTest extends TestCase
 
         $this->assertEquals(
             'SELECT * FROM `test` `t1` JOIN `test2` `t2` ON t1.id = t2.id;',
+            $qb->getQuery()
+        );
+    }
+
+    public function testSimpleHaving(): void
+    {
+        $qb = new QueryBuilder();
+        $qb->select()
+            ->from('test', 't1')
+            ->having(new Gte('COUNT(t1.id)', 1));
+
+        $this->assertEquals(
+            'SELECT * FROM `test` `t1` HAVING COUNT(t1.id) >= 1;',
             $qb->getQuery()
         );
     }
