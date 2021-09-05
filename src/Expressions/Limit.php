@@ -24,5 +24,4 @@ final class Limit extends AbstractExpression
 
         return $builder;
     }
-
 }

@@ -12,10 +12,10 @@ final class LimitTest extends TestCase
         $limit = new Limit(10);
         $this->assertEquals('LIMIT 10', strval($limit));
     }
+
     public function testLimitAndOffset(): void
     {
         $limit = new Limit(10, 20);
         $this->assertEquals('LIMIT 20, 10', strval($limit));
     }
-
 }
