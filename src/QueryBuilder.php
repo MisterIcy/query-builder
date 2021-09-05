@@ -8,6 +8,7 @@ use MisterIcy\QueryBuilder\Expressions\AbstractExpression;
 use MisterIcy\QueryBuilder\Expressions\From;
 use MisterIcy\QueryBuilder\Expressions\FromQuery;
 use MisterIcy\QueryBuilder\Expressions\GroupBy;
+use MisterIcy\QueryBuilder\Expressions\Having;
 use MisterIcy\QueryBuilder\Expressions\Join\InnerJoin;
 use MisterIcy\QueryBuilder\Expressions\Join\JoinExpression;
 use MisterIcy\QueryBuilder\Expressions\Join\LeftJoin;
@@ -241,11 +242,15 @@ class QueryBuilder
         return $this->addExpression(new GroupBy($fields));
     }
 
+    public function having(AbstractOperation $operation): self
+    {
+        return $this->addExpression(new Having($operation));
+    }
+
     public function limit(int $limit, ?int $offset = null): self
     {
         return $this->addExpression(new Limit($limit, $offset));
     }
-
     /**
      * Returns a query.
      *
