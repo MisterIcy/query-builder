@@ -15,12 +15,14 @@ use MisterIcy\QueryBuilder\Expressions\Join\LeftJoin;
 use MisterIcy\QueryBuilder\Expressions\Join\NestedJoin;
 use MisterIcy\QueryBuilder\Expressions\Join\RightJoin;
 use MisterIcy\QueryBuilder\Expressions\Limit;
+use MisterIcy\QueryBuilder\Expressions\OrderBy;
 use MisterIcy\QueryBuilder\Expressions\Select;
 use MisterIcy\QueryBuilder\Expressions\Where;
 use MisterIcy\QueryBuilder\Operations\AbstractOperation;
 use MisterIcy\QueryBuilder\Transactions\CommitTransaction;
 use MisterIcy\QueryBuilder\Transactions\RollbackTransaction;
 use MisterIcy\QueryBuilder\Transactions\StartTransaction;
+use phpDocumentor\Reflection\DocBlock\Tags\See;
 use SqlFormatter;
 
 /**
@@ -250,6 +252,15 @@ class QueryBuilder
     public function limit(int $limit, ?int $offset = null): self
     {
         return $this->addExpression(new Limit($limit, $offset));
+    }
+
+    /**
+     * @param array<string, string> $elements
+     * @return self
+     */
+    public function orderBy(array $elements): self
+    {
+        return $this->addExpression(new OrderBy($elements));
     }
     /**
      * Returns a query.

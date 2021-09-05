@@ -299,4 +299,15 @@ class QueryBuilderTest extends TestCase
 
         $this->assertEquals('SELECT * FROM `test` `t` LIMIT 0, 10;', $qb->getQuery());
     }
+
+    public function testOrderBy(): void
+    {
+        $qb = new QueryBuilder();
+        $qb->select()
+            ->from('test')
+            ->limit(10, 0)
+            ->orderBy(['id' => 'ASC']);
+
+        $this->assertEquals('SELECT * FROM `test` `t` ORDER BY id ASC LIMIT 0, 10;', $qb->getQuery());
+    }
 }
