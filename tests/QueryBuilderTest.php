@@ -275,4 +275,14 @@ class QueryBuilderTest extends TestCase
             $qb->getQuery()
         );
     }
+
+    public function testLimitAndOffset(): void
+    {
+        $qb = new QueryBuilder();
+        $qb->select()
+            ->from('test')
+            ->limit(10, 0);
+
+        $this->assertEquals('SELECT * FROM `test` `t` LIMIT 0, 10;', $qb->getQuery());
+    }
 }
